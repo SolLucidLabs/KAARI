@@ -11,7 +11,7 @@ Kaari detects when an AI agent has been redirected from what the user actually a
 
 Built on **Intent Vectoring** — measuring cosine distance between embedded user intent and model response in vector space. If the model went somewhere the user didn't send it, Kaari sees it.
 
-Based on the Intent Vectoring research (N=2,228, C2 AUC 0.822). Validated across 4 LLM architectures and 3 embedding models — detection is encoder-independent (AUC spread +/-0.006).
+Based on the Intent Vectoring research (AUC 0.914 (composite), N=2,228). Validated across 4 LLM architectures and 3 embedding models — detection is encoder-independent (AUC spread +/-0.006).
 
 ---
 
