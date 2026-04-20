@@ -1,4 +1,4 @@
-# Kaari v0.98
+<img src="banner.svg" alt="Kaari" width="100%"/>
 
 **Black-box prompt injection detection for AI agent pipelines via semantic deviation measurement.**
 
