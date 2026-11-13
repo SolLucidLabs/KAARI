@@ -11,7 +11,7 @@ Kaari detects when an AI agent has been redirected from what the user actually a
 
 Built on **Intent Vectoring** — measuring cosine distance between embedded user intent and model response in vector space. If the model went somewhere the user didn't send it, Kaari sees it.
 
-Based on the Intent Vectoring research (AUC 0.914 (composite), N=2,228). Validated across 4 LLM architectures and 3 embedding models — detection is encoder-independent (AUC spread +/-0.006).
+Based on the Intent Vectoring research. As shipped (raw-prompt pipeline), Kaari reaches AUC 0.739 (dv2) / 0.813 (C2) across all injection attempts, including failed ones (N=2,228 calibration set). On injections that succeeded, the research study measured AUC 0.870 (dv2) / 0.883 (C2) across 4 LLM architectures, and the signal held across 3 embedding models (AUC spread +/-0.006).
 
 ---
 
@@ -190,8 +190,10 @@ C2 = dv2 x (1 + 0.5 x log(response_length / mean_clean_length))
 
 | Tier | Metric | AUC | Embed Calls | Use Case |
 |------|--------|-----|-------------|----------|
-| `fast` | dv2 only | 0.770 | 2 | High-throughput, latency-sensitive |
-| `standard` | C2 | 0.822 | 2 | **Default.** Best accuracy/cost balance |
+| `fast` | dv2 only | 0.739 | 2 | High-throughput, latency-sensitive |
+| `standard` | C2 | 0.813 | 2 | **Default.** Best accuracy/cost balance |
+
+AUC across all injection attempts on the N=2,228 calibration set, raw-prompt pipeline as shipped. With LLM-summarised intent instead of the raw prompt: 0.770 / 0.822.
 
 ```python
 result = k.score(prompt, response, tier="fast")
@@ -377,12 +379,12 @@ This implementation is based on:
 
 > Lertola, T.S. (2026). "Intent Vectoring: Black-Box Prompt Injection Detection via Semantic Deviation Measurement." Sol Lucid Labs. *arXiv preprint.*
 
-Key findings (N=2,228 across 4 LLM architectures, 3 embedding models):
+Key findings:
 
-- AUC-ROC = 0.770 (dv2), 0.822 (C2 with length normalization)
-- Combined Cohen's d = 1.72 (large effect size)
-- Cross-model generalization confirmed (4 LLMs, no model systematically weaker)
-- Encoder-independent detection confirmed (AUC spread +/-0.006 across 3 embedding models)
+- **Successful injections** (main study, 972 clean vs 668 complied runs, 4 LLM architectures, 3 injection families): AUC-ROC 0.870 (dv2), 0.883 (C2 with length normalization); Cohen's d = 1.72
+- **All injection attempts**, including failed ones (N=2,228 calibration set): AUC-ROC 0.739 (dv2), 0.813 (C2) with the raw prompt as intent, as shipped; 0.770 / 0.822 with LLM-summarised intent
+- Cross-model generalization (4 LLMs, no model systematically weaker)
+- Encoder-independent detection (AUC spread +/-0.006 across 3 embedding models, successful-injection subset)
 - 5-stage pipeline, no LLM dependency in scoring path (embedding-only)
 
 ## Contributing

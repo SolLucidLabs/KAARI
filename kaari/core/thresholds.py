@@ -47,9 +47,13 @@ def classify_zone(score: float) -> str:
 # Generic defaults (from paper, Option B raw prompt pipeline)
 # ---------------------------------------------------------------------------
 # AUC values corrected to reflect Option B (raw prompt embedding).
-# Previous v0.2.1 cited Option A values (0.870/0.883) which used LLM
-# summarization. Option B was chosen for production (no LLM dependency)
-# but has lower AUC. Honest numbers from kaari_calibration_v1.json.
+# Previous v0.2.1 cited 0.870/0.883: those are effective-only results
+# (successful injections, N=1,640) from the main study, not deployment
+# numbers. Option B (raw prompt) is the production pipeline.
+# NOTE (2026-11-13): the values below come from kaari_calibration_v1.json,
+# which was computed with Option A (LLM-summary intent). Option B measures
+# auc_dv2 0.739 / auc_c2 0.813, clean_dv2_mean 0.195 (ab_summary.json).
+# Recalibration to Option B is pending; values unchanged in this commit.
 #
 # Threshold adjusted from Youden-optimal 0.239 to 0.245 to reduce
 # false positives in production use.
@@ -60,8 +64,8 @@ DEFAULT_CONFIG = {
     "threshold_dv2": 0.309,       # Youden-optimal dv2 threshold
     "threshold_c2": 0.245,        # Adjusted C2 threshold (reduced FP)
     "threshold_paranoid": 0.22,   # Lower threshold for paranoid (more sensitive)
-    "auc_dv2": 0.770,             # Option B dv2 AUC (N=2,228)
-    "auc_c2": 0.822,              # Option B C2 AUC (N=2,228)
+    "auc_dv2": 0.770,             # Option A dv2 AUC (N=2,228); Option B: 0.739
+    "auc_c2": 0.822,              # Option A C2 AUC (N=2,228); Option B: 0.813
 }
 
 

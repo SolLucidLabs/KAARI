@@ -57,9 +57,9 @@ As of v0.95.0, Kaari achieves:
 
 | Metric | Value | Conditions |
 |--------|-------|------------|
-| AUC-ROC (dv2) | 0.770 | N=2,228, Option B pipeline (raw prompt, no LLM) |
-| AUC-ROC (C2) | 0.822 | N=2,228, 4 LLM architectures, 3 embedding models |
-| Cohen's d | 1.72 | Combined effect size |
+| AUC-ROC (dv2) | 0.739 | N=2,228, all injection attempts, raw-prompt pipeline as shipped |
+| AUC-ROC (C2) | 0.813 | N=2,228, all injection attempts, raw-prompt pipeline as shipped |
+| Cohen's d | 1.72 | Successful injections only (main study, 972 clean vs 668 complied) |
 
 These numbers are from controlled research conditions using the Option B pipeline (raw prompt embedding, no LLM summarization). Real-world performance may vary. We encourage users to validate on their own data before deploying to production.
 
